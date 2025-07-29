@@ -2,7 +2,7 @@ name: Scrape Memes
 
 on:
   schedule:
-    - cron: '*/360 * * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
