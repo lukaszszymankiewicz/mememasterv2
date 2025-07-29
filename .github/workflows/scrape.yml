@@ -1,0 +1,36 @@
+name: Scrape Memes
+
+on:
+  schedule:
+    - cron: '*/360 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Step 1: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # or your required version
+
+      # Step 2: Install dependencies (if needed)
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # Step 3: Run your Python script
+      - name: Run update script
+        run: python run.py
+
+      # Step 4: Commit and push changes (if your script made changes)
+      - name: Commit changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Meme update: $(date)" || echo "No changes to commit"
+          git push
